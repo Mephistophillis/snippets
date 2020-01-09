@@ -1,7 +1,3 @@
-" ----------------------------------------------------------------------
-" | General Settings                                                   |
-" ----------------------------------------------------------------------
-
 set nocompatible               " Don't make vim vi-compatibile
 
 syntax on                      " Enable syntax highlighting
@@ -54,7 +50,7 @@ set lazyredraw                 " Do not redraw the screen while
                                " not been typed
 
 "set listchars=tab:▸\           " ┐
-"set listchars+=trail:·         " │ Use custom symbols to
+"set listchars+=trail:          " │ Use custom symbols to
 "set listchars+=eol:↴           " │ represent invisible characters
 "set listchars+=nbsp:_          " ┘
 
@@ -136,13 +132,11 @@ call vundle#begin('~/.config/nvim/bundle')
     " Let Vundle manage Vundle (this is important!)
     Plugin 'gmarik/Vundle.vim'
 
-    Plugin 'altercation/vim-colors-solarized'
     Plugin 'ap/vim-css-color'
     Plugin 'chrisbra/unicode.vim'
     Plugin 'editorconfig/editorconfig-vim'
     Plugin 'godlygeek/tabular'
     Plugin 'kien/ctrlp.vim'
-    Plugin 'marijnh/tern_for_vim'
     Plugin 'mattn/emmet-vim'
     Plugin 'mattn/webapi-vim'
     Plugin 'nathanaelkane/vim-indent-guides'
@@ -151,7 +145,7 @@ call vundle#begin('~/.config/nvim/bundle')
     Plugin 'raimondi/delimitmate'
     Plugin 'scrooloose/nerdtree'
     Plugin 'scrooloose/syntastic'
-    Plugin 'Shougo/neocomplcache'
+    Plugin 'Shougo/neocomplete.vim'
     Plugin 'Shougo/neosnippet'
     Plugin 'Shougo/neosnippet-snippets'
     Plugin 'shutnik/jshint2.vim'
@@ -167,20 +161,18 @@ call vundle#begin('~/.config/nvim/bundle')
     Plugin 'mxw/vim-jsx'
     Plugin 'itchyny/lightline.vim'
     Plugin 'neovimhaskell/haskell-vim'
-    Plugin 'morhetz/gruvbox'
 
+    Plugin 'tyrannicaltoucan/vim-deep-space'
     Plugin 'arcticicestudio/nord-vim'
 
     Plugin 'jparise/vim-graphql'
     Plugin 'isRuslan/vim-es6'
     Plugin 'leafgarland/typescript-vim'
-    Plugin 'elixir-editors/vim-elixir'
-    Plugin 'slashmili/alchemist.vim'
     Plugin 'chr4/nginx.vim'
     Plugin 'terryma/vim-smooth-scroll'
     Plugin 'styled-components/vim-styled-components'
     Plugin 'terryma/vim-multiple-cursors'
-    Plugin 'yardnsm/vim-import-cost'
+    Plugin 'yardnsm/vim-import-cost', {'do': 'npm install'}
 call vundle#end()
 
 filetype on
@@ -212,16 +204,16 @@ let g:user_emmet_mode='a'
 " Set custom indent colors
 " https://github.com/nathanaelkane/vim-indent-guides#setting-custom-indent-colors
 
-let g:indent_guides_auto_colors = 0
+" let g:indent_guides_auto_colors = 0
 
-autocmd VimEnter,Colorscheme * :hi IndentGuidesOdd
-        \ guibg=#00323D
-        \ ctermbg=Magenta
-
-autocmd VimEnter,Colorscheme * :hi IndentGuidesEven
-        \ guibg=#073642
-        \ ctermbg=DarkMagenta
-
+" autocmd VimEnter,Colorscheme * :hi IndentGuidesOdd
+"         \ guibg=#00323D
+"         \ ctermbg=Magenta
+"
+" autocmd VimEnter,Colorscheme * :hi IndentGuidesEven
+"         \ guibg=#073642
+"         \ ctermbg=DarkMagenta
+"
 
 " ----------------------------------------------------------------------
 " | Plugins - Markdown                                                 |
@@ -234,20 +226,24 @@ let g:vim_markdown_folding_disabled=1
 
 
 " ----------------------------------------------------------------------
-" | Plugins - NeoComplCache                                            |
+" | Plugins - neocomplete                                            |
 " ----------------------------------------------------------------------
 
-" Enable `neocomplcache` by default
-" https://github.com/Shougo/neocomplcache.vim#installation
+" Enable `neocomplete` by default
+" https://github.com/Shougo/neocomplete.vim
 
-let g:neocomplcache_enable_at_startup=1
-let g:neocomplete#enable_fuzzy_completion=1
+" Use neocomplete.
+let g:neocomplete#enable_at_startup = 1
+" Use smartcase.
+let g:neocomplete#enable_smart_case = 1
 
-if !exists('g:neocomplete#force_omni_input_patterns')
-    let g:neocomplete#force_omni_input_patterns = {}
-endif
-let g:neocomplete#force_omni_input_patterns.python =
-    \ '\%([^. \t]\.\|^\s*@\|^\s*from\s.\+import \|^\s*from \|^\s*import \)\w*'
+" Set minimum syntax keyword length.
+let g:neocomplete#sources#syntax#min_keyword_length = 3
+
+" Plugin key-mappings.
+inoremap <expr><C-g>     neocomplete#undo_completion()
+inoremap <expr><C-l>     neocomplete#complete_common_string()
+
 
 " - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
@@ -392,25 +388,31 @@ endif
 " | Color Scheme                                                       |
 " ----------------------------------------------------------------------
 
-set t_Co=256                   " Enable full-color support
+" set t_Co=256                   " Enable full-color support
 
 
 set background=dark            " Use colors that look good
                                " on a dark background
 
-" Set custom configurations for when the
-" Solarized theme is used from vim's Terminal mode
-" http://ethanschoonover.com/solarized/vim-colors-solarized#advanced-configuration
+set termguicolors
+colorscheme deep-space
 
-if !has('gui_running')
-    let g:solarized_contrast = 'high'
-    let g:solarized_termcolors = 256
-    let g:solarized_termtrans = 1
-    let g:solarized_visibility = 'high'
-endif
+let g:lightline = {
+      \ 'colorscheme': 'wombat',
+      \ }
 
-colorscheme gruvbox "Use custom color scheme
 
+
+" ----------------------------------------------------------------------
+" | Import Cost Settings                                                       |
+" ----------------------------------------------------------------------
+
+augroup import_cost_auto_run
+  autocmd!
+  autocmd InsertLeave *.js,*.jsx,*.ts,*.tsx ImportCost
+  autocmd BufEnter *.js,*.jsx,*.ts,*.tsx ImportCost
+  autocmd CursorHold *.js,*.jsx,*.ts,*.tsx ImportCost
+augroup END
 
 " ----------------------------------------------------------------------
 " | Key Mappings                                                       |
@@ -419,6 +421,7 @@ colorscheme gruvbox "Use custom color scheme
 " Use a different mapleader (default is '\')
 let mapleader = ' '
 
+map <C-s> :w<CR>
 " - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
 " [,* ] Search and replace the word under the cursor
@@ -465,10 +468,9 @@ nmap <leader>ss :call StripTrailingWhitespaces()<CR>
 " - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
 " [,t ] Toggle NERDTree
-map <leader>t :NERDTreeToggle<CR>
+"map <leader>t :NERDTreeToggle<CR>
 
-nnoremap <C-\> :NERDTreeToggle<CR>
-inoremap <C-\> <ESC>:NERDTreeToggle<CR>
+nnoremap <leader>t :NERDTreeToggle<CR>
 
 " - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
@@ -615,13 +617,13 @@ noremap <silent> <c-f> :call smooth_scroll#down(&scroll*2, 30, 4)<CR>
 
 " Emmet
 " Use <Tab> to expand
-" let g:user_emmet_expandabbr_key='<Tab>'
-" imap <expr> <tab> emmet#expandAbbrIntelligent("\<tab>")
+let g:user_emmet_expandabbr_key='<Tab>'
+imap <expr> <tab> emmet#expandAbbrIntelligent("\<tab>")
 
 " Add code highlight on blocks inside markdown files
 au BufNewFile,BufReadPost *.md[x] set filetype=markdown
 let g:markdown_fenced_languages = ['javascript', 'ruby', 'sh', 'yaml', 'javascript', 'html', 'vim', 'coffee', 'json', 'diff', 'jsx', 'js']
-" let g:markdown_fenced_languages=['coffee', 'css', 'erb=eruby', '.jsx=javascript', 'javascript', 'js=javascript', 'json=javascript', 'ruby', 'sass', 'xml', 'html']
+let g:markdown_fenced_languages=['css', '.jsx=javascript', 'javascript', 'js=javascript', 'json=javascript', 'sass', 'xml', 'html']
 
 " Import cost
 let g:import_cost_always_open_split = 0
