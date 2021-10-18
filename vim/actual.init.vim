@@ -42,6 +42,9 @@ vmap <Tab> >gv
 vmap <S-Tab> <gv
 nnoremap <Esc> :noh<CR>
 
+" Hide in search
+let g:ctrlp_custom_ignore = 'node_modules\|DS_Store\|git\|next'
+
 " tabs
 set switchbuf=usetab
 nnoremap <M-1> 1gt
@@ -53,6 +56,9 @@ nnoremap <M-6> 6gt
 nnoremap <M-7> 7gt
 nnoremap <M-8> 8gt
 nnoremap <M-9> 9gt
+
+" Russian key mapping
+set langmap=ФИСВУАПРШОЛДЬТЩЗЙКЫЕГМЦЧНЯ;ABCDEFGHIJKLMNOPQRSTUVWXYZ,фисвуапршолдьтщзйкыегмцчня;abcdefghijklmnopqrstuvwxyz
 
 "Airline settings
 let g:airline#extensions#tabline#enabled = 1
