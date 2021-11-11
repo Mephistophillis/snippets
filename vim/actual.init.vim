@@ -1,8 +1,7 @@
 " My settigns
 set number
-syntax enable
+
 set t_Co=256
-set cursorline
 set noswapfile
 set mouse=a
 
@@ -16,6 +15,8 @@ set showmatch
 set mat=2
 set laststatus=2
 
+set cursorline
+
 set guifont=JetBrains\ Mono\:h11
 
 call plug#begin(stdpath('data') . '/plugged')
@@ -25,37 +26,68 @@ call plug#begin(stdpath('data') . '/plugged')
   Plug 'preservim/nerdtree'
   Plug 'tpope/vim-fugitive'
   Plug 'airblade/vim-gitgutter'
-  Plug 'kien/ctrlp.vim'
+  Plug 'junegunn/fzf.vim'
+  Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
+  Plug 'dyng/ctrlsf.vim'
+  Plug 'mg979/vim-visual-multi', {'branch': 'master'}
   Plug 'kristijanhusak/vim-hybrid-material'
-  Plug 'rakr/vim-one'
   Plug 'findango/vim-mdx'
   Plug 'mattn/emmet-vim'
   Plug 'Raimondi/delimitMate'
   Plug 'ryanoasis/vim-devicons'
   Plug 'vim-airline/vim-airline'
   Plug 'vim-airline/vim-airline-themes'
+  Plug 'drewtempelmeyer/palenight.vim'
+  Plug 'sainnhe/edge'
 
 call plug#end()
 
 " My settings
+colorscheme edge
+" colorscheme palenight
+let g:edge_style = 'neon'
+set background=dark " for the dark version
+" set background=light " for the light version
+let g:airline_theme = 'edge'
+
+let g:VM_maps = {}
+let g:VM_maps['Find Under']         = '<C-m>'           " replace C-n
+let g:VM_maps['Find Subword Under'] = '<C-m>'           " replace visual C-n
+let g:VM_mouse_mappings = 1
+
+let NERDTreeHijackNetrw=1
+let NERDTreeShowHidden=1
+
+" Splits
+set splitbelow splitright
+
+" Remap splits navigation to just CTRL + hjkl
+nnoremap <C-h> <C-w>h
+nnoremap <C-j> <C-w>j
+nnoremap <C-k> <C-w>k
+nnoremap <C-l> <C-w>l
+
+" Change 2 split windows from vert to horiz or horiz to vert
+map <Leader>th <C-w>t<C-w>H
+map <Leader>tk <C-w>t<C-w>K
+
 vmap <Tab> >gv
 vmap <S-Tab> <gv
 nnoremap <Esc> :noh<CR>
 
-" Hide in search
-let g:ctrlp_custom_ignore = 'node_modules\|DS_Store\|git\|next'
+nmap <C-f> :CtrlSF -R ""<Left>
+nmap <leader>A <Plug>CtrlSFCwordPath -W<CR>
+nmap <leader>c :CtrlSFFocus<CR>
+nmap <leader>st :CtrlSFToggle<CR>
 
-" tabs
-set switchbuf=usetab
-nnoremap <M-1> 1gt
-nnoremap <M-2> 2gt
-nnoremap <M-3> 3gt
-nnoremap <M-4> 4gt
-nnoremap <M-5> 5gt
-nnoremap <M-6> 6gt
-nnoremap <M-7> 7gt
-nnoremap <M-8> 8gt
-nnoremap <M-9> 9gt
+if has("macunix")
+  let g:ctrlsf_ackprg = '/usr/local/bin/rg'
+elseif has("unix")
+  let g:ctrlsf_ackprg = '/usr/bin/rg'
+endif
+
+" fzf
+nnoremap <silent> <C-p> :GFiles<CR>
 
 " Russian key mapping
 set langmap=ФИСВУАПРШОЛДЬТЩЗЙКЫЕГМЦЧНЯ;ABCDEFGHIJKLMNOPQRSTUVWXYZ,фисвуапршолдьтщзйкыегмцчня;abcdefghijklmnopqrstuvwxyz
@@ -207,16 +239,6 @@ omap ic <Plug>(coc-classobj-i)
 xmap ac <Plug>(coc-classobj-a)
 omap ac <Plug>(coc-classobj-a)
 
-" Remap <C-f> and <C-b> for scroll float windows/popups.
-if has('nvim-0.4.0') || has('patch-8.2.0750')
-  nnoremap <silent><nowait><expr> <C-f> coc#float#has_scroll() ? coc#float#scroll(1) : "\<C-f>"
-  nnoremap <silent><nowait><expr> <C-b> coc#float#has_scroll() ? coc#float#scroll(0) : "\<C-b>"
-  inoremap <silent><nowait><expr> <C-f> coc#float#has_scroll() ? "\<c-r>=coc#float#scroll(1)\<cr>" : "\<Right>"
-  inoremap <silent><nowait><expr> <C-b> coc#float#has_scroll() ? "\<c-r>=coc#float#scroll(0)\<cr>" : "\<Left>"
-  vnoremap <silent><nowait><expr> <C-f> coc#float#has_scroll() ? coc#float#scroll(1) : "\<C-f>"
-  vnoremap <silent><nowait><expr> <C-b> coc#float#has_scroll() ? coc#float#scroll(0) : "\<C-b>"
-endif
-
 " Use CTRL-S for selections ranges.
 " Requires 'textDocument/selectionRange' support of language server.
 nmap <silent> <C-s> <Plug>(coc-range-select)
@@ -254,12 +276,9 @@ nnoremap <silent><nowait> <space>k  :<C-u>CocPrev<CR>
 " Resume latest coc list.
 nnoremap <silent><nowait> <space>p  :<C-u>CocListResume<CR>
 
-colorscheme one
-set background=dark " for the dark version
-" set background=light " for the light version
-
 " Use a different mapleader (default is '\')
-let mapleader = ' '
+nnoremap <SPACE> <Nop>
+let mapleader = " "
 
 map <C-s> :w<CR>
 map <C-d> :q<CR>
@@ -279,13 +298,7 @@ set scrolloff=5                " When scrolling, keep the cursor
                                " 5 lines below the top and 5 lines
                                " above the bottom of the screen
 
-if exists('+termguicolors')
-  let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum"
-  let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"
-  set termguicolors
-endif
-
-" Neovide
+"asfdsdf
 let g:neovide_refresh_rate=140
 let g:neovide_transparency=0.8
 let g:neovide_no_idle=v:true
@@ -295,3 +308,27 @@ let g:neovide_cursor_vfx_mode = "wireframe"
 
 " Emmet
 let g:user_emmet_leader_key=','
+
+if exists('+termguicolors')
+  let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum"
+  let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"
+  set termguicolors
+endif
+
+" tabs
+set switchbuf=usetab
+nnoremap <leader>1 1gt
+nnoremap <leader>2 2gt
+nnoremap <leader>3 3gt
+nnoremap <leader>4 4gt
+nnoremap <leader>5 5gt
+nnoremap <leader>6 6gt
+nnoremap <leader>7 7gt
+nnoremap <leader>8 8gt
+nnoremap <leader>9 9gt
+" buffers
+nnoremap <leader>b :buffers<CR>:buffer<space>
+
+
+" git
+nnoremap <Leader>g :G<space>
