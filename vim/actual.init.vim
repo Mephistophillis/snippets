@@ -39,6 +39,8 @@ call plug#begin(stdpath('data') . '/plugged')
   Plug 'vim-airline/vim-airline-themes'
   Plug 'drewtempelmeyer/palenight.vim'
   Plug 'sainnhe/edge'
+  Plug 'tpope/vim-commentary'
+  Plug 'suy/vim-context-commentstring'
 
 call plug#end()
 
@@ -49,6 +51,9 @@ let g:edge_style = 'neon'
 set background=dark " for the dark version
 " set background=light " for the light version
 let g:airline_theme = 'edge'
+
+" comments
+noremap <C-/>/ :Commentary<cr>
 
 let g:VM_maps = {}
 let g:VM_maps['Find Under']         = '<C-m>'           " replace C-n
@@ -68,8 +73,8 @@ nnoremap <C-k> <C-w>k
 nnoremap <C-l> <C-w>l
 
 " Change 2 split windows from vert to horiz or horiz to vert
-map <Leader>th <C-w>t<C-w>H
-map <Leader>tk <C-w>t<C-w>K
+map <leader>th <C-w>t<C-w>H
+map <leader>tk <C-w>t<C-w>K
 
 vmap <Tab> >gv
 vmap <S-Tab> <gv
