@@ -17,6 +17,11 @@ set laststatus=2
 
 set cursorline
 
+set foldmethod=indent   
+set foldnestmax=10
+set nofoldenable
+set foldlevel=2
+
 set guifont=JetBrains\ Mono\:h11
 
 call plug#begin(stdpath('data') . '/plugged')
@@ -81,10 +86,20 @@ vmap <Tab> >gv
 vmap <S-Tab> <gv
 nnoremap <Esc> :noh<CR>
 
-nmap <C-f> :CtrlSF -R ""<Left>
-nmap <leader>A <Plug>CtrlSFCwordPath -W<CR>
-nmap <leader>c :CtrlSFFocus<CR>
-nmap <leader>st :CtrlSFToggle<CR>
+" nmap <C-f> :CtrlSF -R ""<Left>
+" nmap <leader>A <Plug>CtrlSFCwordPath -W<CR>
+" nmap <leader>c :CtrlSFFocus<CR>
+" nmap <leader>st :CtrlSFToggle<CR>
+
+nmap     <C-F>f <Plug>CtrlSFPrompt
+vmap     <C-F>f <Plug>CtrlSFVwordPath
+vmap     <C-F>F <Plug>CtrlSFVwordExec
+nmap     <C-F>n <Plug>CtrlSFCwordPath
+nmap     <C-F>p <Plug>CtrlSFPwordPath
+nnoremap <C-F>o :CtrlSFOpen<CR>
+nnoremap <C-F>t :CtrlSFToggle<CR>
+inoremap <C-F>t <Esc>:CtrlSFToggle<CR>
+nmap     <C-F>u :CtrlSFUpdate<CR>
 
 if has("macunix")
   let g:ctrlsf_ackprg = '/usr/local/bin/rg'
@@ -338,7 +353,9 @@ nnoremap <leader>t :tabnew<CR>
 nnoremap <leader>b :buffers<CR>:buffer<space>
 
 " git
-nnoremap <Leader>g :G<space>
+nnoremap <leader>gs :G
+nmap <leader>gh :diffget //2<CR>
+nmap <leader>gl :diffget //3<CR>
 
 " Markdown preview settings
 " set to 1, nvim will open the preview window after entering the markdown buffer
