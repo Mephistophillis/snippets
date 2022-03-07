@@ -28,14 +28,11 @@ nvim_tree.setup({
   view ={
     mappings = {
       list = {
-         { key = "ss", action = "split"},
-         { key = "vv", action = "vsplit"},
+         { key = "ss", action = "split" },
+         { key = "vv", action = "vsplit" },
       }
     }
   }
-  -- system_open = {
-  --   cmd  = "nautilus",
-  -- },
 })
 
 vim.g.user_emmet_leader_key = ','

@@ -19,7 +19,7 @@ map("n", "<leader>8", "8gt")
 map("n", "<leader>9", "9gt")
 
 -- search text
-map("n", "<C-f>f", ":CtrlSF ")
+map("n", "<C-f>f", ":CtrlSF")
 map("n", "<C-f>o", ":CtrlSFOpen<CR>")
 map("n", "<C-f>t", ":CtrlSFToggle<CR>")
 map("n", "<C-f>u", ":CtrlSFUpdate<CR>")

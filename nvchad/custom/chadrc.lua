@@ -28,11 +28,17 @@ M.ui = {
 
 M.mappings = {
   custom = {
-    text_search = {
+    ctrlSF = {
       search = "<C-f> f",
       open = "<C-f> o",
       toggle = "<C-f> t",
       update = "<C-f> u",
+      next_match = "<C-j>",
+      prev_match = "<C-k>",
+      next_file = "<C-n>",
+      prev_file = "<C-p>",
+      stop_background_search = "<C-c>",
+      fzf_navigation = "<C-t>",
     },
 
     git = {
