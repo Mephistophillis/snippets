@@ -33,7 +33,13 @@ M.lsp = {
       function ()
         vim.lsp.diagnostic.show_line_diagnostics()
       end,
-      "- lsp diagnostics"
+      " lsp diagnostics"
+    },
+    ["<leader>lf"] = {
+      function ()
+        vim.lsp.buf.formatting()
+      end,
+      " lsp formatting"
     }
   }
 }
