@@ -1,32 +1,45 @@
+---@type ChadrcConfig
 local M = {}
 
-local customPlugins = require "custom.plugins"
-local customMappings = require "custom.mappings"
+-- Path to overriding theme and highlights files
+local highlights = require "custom.highlights"
 
 M.ui = {
-   theme = "onenord",
-}
+  theme = "onenord",
+  theme_toggle = { "onenord", "one_light" },
 
-M.plugins = {
+  hl_override = highlights.override,
+  hl_add = highlights.add,
 
-  options = {
+  transparency = false,
 
-    lspconfig = {
-      setup_lspconf = "custom.plugins.lspconfig",
-    },
+  nvdash = {
+    load_on_startup = true,
 
-    statusline = {
-      separator_style = "round",
-    },
+    header = {
+      "░░░░░░░░░▄░░░░░░░░░░░░░░▄░░",
+      "░░░░░░░░▌▒█░░░░░░░░░░░▄▀▒▌░",
+      "░░░░░░░░▌▒▒█░░░░░░░░▄▀▒▒▒▐░",
+      "░░░░░░░▐▄▀▒▒▀▀▀▀▄▄▄▀▒▒▒▒▒▐░",
+      "░░░░░▄▄▀▒░▒▒▒▒▒▒▒▒▒█▒▒▄█▒▐░",
+      "░░░▄▀▒▒▒░░░▒▒▒░░░▒▒▒▀██▀▒▌░",
+      "░░▐▒▒▒▄▄▒▒▒▒░░░▒▒▒▒▒▒▒▀▄▐▒░",
+      "░░▌░░▌█▀▒▒▒▒▒▄▀█▄▒▒▒▒▒▒▒█▒░",
+      "░▐░░░▒▒▒▒▒▒▒▒▌██▀▒▒░░░▒▒▒▀▄",
+      "░▌░▒▄██▄▒▒▒▒▒▒▒▒▒░░░░░░▒▒▒▐",
+      "▌▒▀▐▄█▄█▌▄░▀▒▒░░░░░░░░░░▒▒▌",
+    }
   },
 
-  override = {
+  statusline = {
+    theme = "minimal"
+  }
 
-  },
-
-  user = customPlugins,
 }
 
-M.mappings = customMappings
+M.plugins = "custom.plugins"
+
+-- check core.mappings for table structure
+M.mappings = require "custom.mappings"
 
 return M
