@@ -6,12 +6,13 @@ WELCOME_MESSAGE = [[
 ]]
 
 local config = {
+  api_key_cmd = nil,
   yank_register = "+",
   edit_with_instructions = {
     diff = false,
     keymaps = {
-      accept = "<leader>y",
-      toggle_diff = "<leader>d",
+      accept = "<C-y>",
+      toggle_diff = "<C-d>",
       toggle_settings = "<C-o>",
       cycle_windows = "<Tab>",
       use_output_as_input = "<C-i>",
@@ -35,29 +36,35 @@ local config = {
       },
     },
     keymaps = {
-      close = { "<leader>x" },
-      yank_last = "<leader>y",
-      yank_last_code = "<leader>k",
+      close = { "<C-c>" },
+      yank_last = "<C-y>",
+      yank_last_code = "<C-k>",
       scroll_up = "<C-u>",
       scroll_down = "<C-d>",
-      toggle_settings = "<C-o>",
       new_session = "<C-n>",
       cycle_windows = "<Tab>",
-      select_session = "<space>",
+      cycle_modes = "<C-f>",
+      select_session = "<Space>",
       rename_session = "r",
       delete_session = "d",
+      draft_message = "<C-d>",
+      toggle_settings = "<C-o>",
+      toggle_message_role = "<C-r>",
+      toggle_system_role_open = "<C-s>",
     },
   },
   popup_layout = {
-    relative = "editor",
-    position = "50%",
-    size = {
-      height = "80%",
+    default = "center",
+    center = {
       width = "80%",
+      height = "80%",
+    },
+    right = {
+      width = "30%",
+      width_settings_open = "50%",
     },
   },
   popup_window = {
-    filetype = "chatgpt",
     border = {
       highlight = "FloatBorder",
       style = "rounded",
@@ -66,6 +73,27 @@ local config = {
       },
     },
     win_options = {
+      wrap = true,
+      linebreak = true,
+      foldcolumn = "1",
+      winhighlight = "Normal:Normal,FloatBorder:FloatBorder",
+    },
+    buf_options = {
+      filetype = "markdown",
+    },
+  },
+  system_window = {
+    border = {
+      highlight = "FloatBorder",
+      style = "rounded",
+      text = {
+        top = " SYSTEM ",
+      },
+    },
+    win_options = {
+      wrap = true,
+      linebreak = true,
+      foldcolumn = "2",
       winhighlight = "Normal:Normal,FloatBorder:FloatBorder",
     },
   },
@@ -82,7 +110,8 @@ local config = {
     win_options = {
       winhighlight = "Normal:Normal,FloatBorder:FloatBorder",
     },
-    submit = "<C-CR>",
+    submit = "<C-Enter>",
+    submit_n = "<Enter>",
     -- submit = "<leader>o",
   },
   settings_window = {
@@ -111,7 +140,8 @@ local config = {
     top_p = 1,
     n = 1,
   },
-  actions_paths = { "~/.config/NvChad/lua/custom/configs/chatgpt_actions.json" },
+  actions_paths = { "~/.config/nvim/lua/config/chatgpt_actions.json" },
+  show_quickfixes_cmd = "Trouble quickfix",
   predefined_chat_gpt_prompts = "https://raw.githubusercontent.com/f/awesome-chatgpt-prompts/main/prompts.csv",
 }
 
